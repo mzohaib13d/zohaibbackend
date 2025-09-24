@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ZohaibBackend</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="nav-logo">ZohaibBackend</h1>
+            <div class="nav-links">
+                <a href="/pages/profile.html" class="nav-link">Profile</a>
+                <button onclick="logout()" class="nav-link logout-btn">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="dashboard-header">
+            <h1>Dashboard</h1>
+            <p>Welcome to your product management system</p>
+        </div>
+
+        <div class="dashboard-actions">
+            <button class="btn btn-primary" onclick="showProductForm()">Add New Product</button>
+            <button class="btn btn-secondary" onclick="loadProducts()">Refresh Products</button>
+        </div>
+
+        <!-- Product Form -->
+        <div id="productForm" class="product-form hidden">
+            <h3>Add New Product</h3>
+            <form id="createProductForm">
+                <div class="form-group">
+                    <label for="productName">Product Name</label>
+                    <input type="text" id="productName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="productDescription">Description</label>
+                    <textarea id="productDescription" name="description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="productPrice">Price ($)</label>
+                    <input type="number" id="productPrice" name="price" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="productCategory">Category</label>
+                    <select id="productCategory" name="category" required>
+                        <option value="">Select Category</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Clothing">Clothing</option>
+                        <option value="Books">Books</option>
+                        <option value="Home">Home</option>
+                        <option value="Sports">Sports</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Create Product</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideProductForm()">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Products List -->
+        <div id="productsList" class="products-list">
+            <h3>Your Products</h3>
+            <div id="productsContainer" class="products-container">
+                <!-- Products will be loaded here -->
+            </div>
+        </div>
+    </main>
+
+     <script type="module" src="/js/dashboard.js"></script>
+</body>
+</html>
