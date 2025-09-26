@@ -1,6 +1,16 @@
 // Main JavaScript file for the home page
 console.log('ZohaibBackend frontend loaded successfully!');
-
+document.addEventListener("contextmenu", e => e.preventDefault());
+  document.addEventListener("keydown", e => {
+    const key = e.key.toLowerCase();
+    if (
+      (e.ctrlKey && e.shiftKey && (key === "i" || key === "j")) || 
+      (e.ctrlKey && key === "u") || 
+      key === "f12"                 
+    ) {
+      e.preventDefault();
+    }
+  });
 // Check if user is logged in and update navigation
 const updateNavigation = async () => {
   try {

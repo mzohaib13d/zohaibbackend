@@ -1,6 +1,17 @@
 // API Base URL
 const API_BASE = 'http://localhost:5000/api';
-
+document.addEventListener("contextmenu", e => e.preventDefault());
+  document.addEventListener("keydown", e => {
+    const key = e.key.toLowerCase();
+    if (
+      (e.ctrlKey && e.shiftKey && (key === "i" || key === "j")) || 
+      (e.ctrlKey && key === "u") || 
+      key === "f12"                 
+    ) {
+      e.preventDefault();
+    }
+  });
+  
 // Utility Functions
 const showError = (elementId, message) => {
     const element = document.getElementById(elementId);
