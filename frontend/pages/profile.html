@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - ZohaibBackend</title>
+     <base href="/">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 2rem;
+            border-radius: 12px 12px 0 0;
+            text-align: center;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+
+        .profile-content {
+            background: var(--surface-color);
+            padding: 2rem;
+            border-radius: 0 0 12px 12px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .profile-details {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .detail-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-value {
+            font-size: 1.1rem;
+            padding: 0.75rem;
+            background: var(--background-color);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: var(--surface-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .loading-container {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .error-container {
+            text-align: center;
+            padding: 3rem;
+            color: var(--error-color);
+        }
+
+        @media (max-width: 430px) {
+            .profile-content {
+                padding: 1.5rem;
+            }
+            
+            .profile-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .profile-avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .profile-header {
+                padding: 1.5rem;
+            }
+            
+            .profile-content {
+                padding: 1rem;
+            }
+            
+            .stat-card {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .profile-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .detail-value {
+                font-size: 1rem;
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="nav-logo">ZohaibBackend</h1>
+            <div class="nav-links">
+                <a href="./pages/dashboard.html" class="nav-link">Dashboard</a>
+                <a href="#" id="logoutBtn" class="nav-link">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="profile-container">
+            <!-- Loading State -->
+            <div id="loadingState" class="loading-container">
+                <div class="spinner" style="width: 40px; height: 40px; margin: 0 auto 1rem;"></div>
+                <p>Loading your profile...</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="error-container hidden">
+                <h2>Unable to Load Profile</h2>
+                <p id="errorMessage">There was an error loading your profile information.</p>
+                <div class="action-buttons">
+                    <button onclick="loadProfile()" class="btn btn-primary">Try Again</button>
+                    <a href="/pages/login.html" class="btn btn-secondary">Login Again</a>
+                </div>
+            </div>
+
+            <!-- Profile Content -->
+            <div id="profileContent" class="hidden">
+                <div class="profile-header">
+                    <div class="profile-avatar" id="userAvatar">U</div>
+                    <h1 id="userName">User Name</h1>
+                    <p id="userEmail">user@example.com</p>
+                </div>
+
+                <div class="profile-content">
+                    <h2>Profile Information</h2>
+                    <div class="profile-details">
+                        <div class="detail-group">
+                            <span class="detail-label">Full Name</span>
+                            <div class="detail-value" id="profileName">Loading...</div>
+                        </div>
+
+                        <div class="detail-group">
+                            <span class="detail-label">Email Address</span>
+                            <div class="detail-value" id="profileEmail">Loading...</div>
+                        </div>
+
+                        <div class="detail-group">
+                            <span class="detail-label">User ID</span>
+                            <div class="detail-value" id="profileId">Loading...</div>
+                        </div>
+
+                        <div class="detail-group">
+                            <span class="detail-label">Member Since</span>
+                            <div class="detail-value" id="memberSince">Loading...</div>
+                        </div>
+
+                        <div class="detail-group">
+                            <span class="detail-label">Last Updated</span>
+                            <div class="detail-value" id="lastUpdated">Loading...</div>
+                        </div>
+                    </div>
+
+                    <div class="profile-stats">
+                        <div class="stat-card">
+                            <div class="stat-number" id="productsCreated">0</div>
+                            <div class="stat-label">Products Created</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-number" id="productsUpdated">0</div>
+                            <div class="stat-label">Products Updated</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalAccess">0</div>
+                            <div class="stat-label">Total Access</div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button onclick="editProfile()" class="btn btn-primary">Edit Profile</button>
+                        <button onclick="changePassword()" class="btn btn-secondary">Change Password</button>
+                        <button id="logoutBtn2" class="btn btn-secondary">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="../js/profile.js"></script>
+</body>
+</html>
